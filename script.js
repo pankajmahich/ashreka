@@ -29,7 +29,9 @@ const state = {
     rose: 'Forever Rose 🌹',
     lavender: 'Lilac Lavender 🪻'
   },
-  cart: JSON.parse(localStorage.getItem('ashreka_cart') || '[]')
+  cart: JSON.parse(localStorage.getItem('ashreka_cart') || '[]'),
+  delivery: JSON.parse(localStorage.getItem('ashreka_delivery') || '{"name":"","phone":"","address":"","pincode":""}'),
+  shippingFee: 49
 };
 
 // Catalog Data for Quick View & Modals
@@ -153,6 +155,36 @@ const catalogData = {
       'Sturdy wired stem for vases or handheld bouquets',
       '100% handcrafted original art piece'
     ]
+  },
+  103: {
+    id: 103,
+    name: 'Blush Radiance Ruffled Lily Bouquet',
+    category: 'Ashreka Studio Signature',
+    price: 699,
+    originalPrice: 899,
+    img: 'images/bouquet_pink_custom.jpg',
+    desc: 'An authentic Ashreka studio original! Handcrafted two-tone pink and white ruffled lilies with blooming chenille tulips, wrapped in frosted Korean paper and crowned with an elegant white lace bow. Fully customisable color themes and fairy lights available.',
+    features: [
+      '100% authentic Ashreka handcrafted masterpiece',
+      'Intricate two-tone pink & white ruffled petal edging',
+      'Frosted translucent wrap with luxury white bow',
+      'Free customized calligraphy note & warm fairy lights'
+    ]
+  },
+  104: {
+    id: 104,
+    name: 'Imperial Magenta Stargazer Bloom',
+    category: 'Ashreka Studio Signature',
+    price: 449,
+    originalPrice: 599,
+    img: 'images/lily_magenta_bloom.jpg',
+    desc: 'A vivid, sculpted statement bloom! Hand-twisted rich fuchsia and magenta velvet chenille petals with frosty silver stamen pistils and emerald wired stem. Accompanied by an authentic Ashreka signature keepsake card.',
+    features: [
+      'Rich vibrant magenta velvet chenille texture',
+      'Multi-tiered blooming sculpted petal geometry',
+      'Delicate frosted stamen pistil center',
+      'Includes authentic Ashreka handwritten signature card'
+    ]
   }
 };
 
@@ -162,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
   initMobileMenu();
   initFilterTabs();
+  loadSavedDeliveryFields();
   updateBuilderSummary();
   updateCartBadge();
   setupModalDismissals();
@@ -242,14 +275,20 @@ function updateBuilderSummary() {
 
   // Base wrapping & arrangement cost
   const baseCraftCost = totalStems > 0 ? 199 : 0;
-  const grandTotal = stemsPrice + baseCraftCost + extrasPrice;
+  const craftSubtotal = stemsPrice + baseCraftCost + extrasPrice;
+  const shippingFee = 49;
+  const grandTotal = craftSubtotal + (craftSubtotal > 0 ? shippingFee : 0);
 
+  const craftPriceEl = document.getElementById('builderCraftPrice');
+  if (craftPriceEl) craftPriceEl.textContent = `₹${craftSubtotal}`;
   if (totalPriceEl) totalPriceEl.textContent = `₹${grandTotal}`;
 
   // Dynamic preview photo based on stems
   if (previewImg) {
-    if (state.stems.lily > 0 && state.stems.tulip === 0 && state.stems.sunflower === 0) {
-      previewImg.src = 'images/lily_blue_1.jpg';
+    if (state.stems.lily > 0 && state.stems.tulip > 0) {
+      previewImg.src = 'images/bouquet_pink_custom.jpg';
+    } else if (state.stems.lily > 0) {
+      previewImg.src = 'images/lily_magenta_bloom.jpg';
     } else if (state.stems.sunflower > 1) {
       previewImg.src = 'images/sunflower.jpg';
     } else if (state.stems.rose > 1) {
@@ -257,7 +296,7 @@ function updateBuilderSummary() {
     } else if (state.stems.tulip > 2) {
       previewImg.src = 'images/tulips.jpg';
     } else {
-      previewImg.src = 'images/hero.jpg';
+      previewImg.src = 'images/bouquet_pink_custom.jpg';
     }
   }
 }
@@ -270,7 +309,13 @@ function generateBuilderOrderText() {
   const card = document.getElementById('addonCard')?.checked ? 'Yes (Included)' : 'No';
   const keychain = document.getElementById('addonKeychain')?.checked ? 'Yes (+₹149)' : 'No';
   const cardMessage = document.getElementById('customCardText')?.value.trim();
-  const totalPrice = document.getElementById('builderTotalPrice')?.textContent || '₹749';
+  const craftPrice = document.getElementById('builderCraftPrice')?.textContent || '₹749';
+  const totalPrice = document.getElementById('builderTotalPrice')?.textContent || '₹798';
+
+  const recipientName = state.delivery.name || document.getElementById('builderRecipientName')?.value.trim() || '';
+  const contactNo = state.delivery.phone || document.getElementById('builderContactNo')?.value.trim() || '';
+  const permanentAddress = state.delivery.address || document.getElementById('builderAddress')?.value.trim() || '';
+  const pinCode = state.delivery.pincode || document.getElementById('builderPincode')?.value.trim() || '';
 
   const stemsList = Object.entries(state.stems)
     .filter(([_, count]) => count > 0)
@@ -287,10 +332,53 @@ function generateBuilderOrderText() {
     text += `📝 *Card Note:* "${cardMessage}"\n`;
   }
   text += `🌸 *Keychain Addon:* ${keychain}\n\n`;
-  text += `💰 *Estimated Price:* ${totalPrice}\n\n`;
+
+  text += `📍 *RECIPIENT & DELIVERY DETAILS:*\n`;
+  text += `• *Name of Recipient:* ${recipientName || '[Pending/To be shared]'}\n`;
+  text += `• *Contact No.:* ${contactNo || '[Pending/To be shared]'}\n`;
+  text += `• *Permanent Address:* ${permanentAddress || '[Pending/To be shared]'}\n`;
+  text += `• *PIN Code:* ${pinCode || '[Pending/To be shared]'}\n\n`;
+
+  text += `💰 *PRICE BREAKDOWN:*\n`;
+  text += `• Bouquet Craft Cost: ${craftPrice}\n`;
+  text += `• Shipping Charges (Pan-India): ₹49\n`;
+  text += `• *Estimated Total Payable:* ${totalPrice}\n\n`;
   text += `Hi Ashreka! I crafted this custom bouquet on your landing page and would love to place this order! ♡`;
 
   return text;
+}
+
+// Robust cross-browser clipboard copy helper
+function copyTextToClipboard(text) {
+  let copied = false;
+  try {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = '0';
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.style.opacity = '0';
+    textArea.style.pointerEvents = 'none';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    copied = document.execCommand('copy');
+    document.body.removeChild(textArea);
+  } catch (err) {
+    copied = false;
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+  return copied;
 }
 
 function sendBuilderToWhatsapp() {
@@ -301,14 +389,30 @@ function sendBuilderToWhatsapp() {
 
 function sendBuilderToInstagram() {
   const text = generateBuilderOrderText();
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('✨ Custom bouquet specs copied to clipboard! Opening Instagram DM...');
+
+  // 1. Copy formatted bouquet specification to clipboard immediately
+  copyTextToClipboard(text);
+
+  // 2. Immediate tactile button visual feedback
+  const btn = document.getElementById('btnSendIgBuilder');
+  if (btn) {
+    const span = btn.querySelector('span');
+    const originalText = span ? span.textContent : 'DM Spec to @ashrekaofficial01';
+    btn.classList.add('btn-copied-active');
+    if (span) span.textContent = '✓ Spec Copied! Opening DM...';
+
     setTimeout(() => {
-      window.open('https://www.instagram.com/ashrekaofficial01/?hl=en', '_blank');
-    }, 1200);
-  }).catch(() => {
-    window.open('https://www.instagram.com/ashrekaofficial01/?hl=en', '_blank');
-  });
+      if (span) span.textContent = originalText;
+      btn.classList.remove('btn-copied-active');
+    }, 3500);
+  }
+
+  // 3. User feedback toast
+  showToast('✨ Specs copied to clipboard! Opening Instagram chat... Simply paste & send! 💌');
+
+  // 4. Open Instagram Direct Message chat box synchronously during user click
+  // (Using ig.me/m/ routes straight to DM conversation on both mobile app and web, avoiding popup blocker)
+  window.open('https://ig.me/m/ashrekaofficial01', '_blank', 'noopener,noreferrer');
 }
 
 // -------------------------------------------------------------
@@ -376,12 +480,61 @@ function renderWishlistModal() {
   });
 
   container.innerHTML = itemsHTML;
+  const shippingFee = total > 0 ? 49 : 0;
+  const grandTotal = total + shippingFee;
+
   if (subtotalEl) subtotalEl.textContent = `₹${total}`;
-  if (grandTotalEl) grandTotalEl.textContent = `₹${total}`;
+  const shippingEl = document.getElementById('cartShipping');
+  if (shippingEl) shippingEl.textContent = `₹${shippingFee}`;
+  if (grandTotalEl) grandTotalEl.textContent = `₹${grandTotal}`;
+}
+
+function syncDeliveryFields(field, value) {
+  state.delivery[field] = value.trim();
+  try {
+    localStorage.setItem('ashreka_delivery', JSON.stringify(state.delivery));
+  } catch (e) {}
+
+  const bMap = {
+    name: document.getElementById('builderRecipientName'),
+    phone: document.getElementById('builderContactNo'),
+    address: document.getElementById('builderAddress'),
+    pincode: document.getElementById('builderPincode')
+  };
+
+  const cMap = {
+    name: document.getElementById('cartRecipientName'),
+    phone: document.getElementById('cartContactNo'),
+    address: document.getElementById('cartAddress'),
+    pincode: document.getElementById('cartPincode')
+  };
+
+  if (bMap[field] && bMap[field].value !== value) bMap[field].value = value;
+  if (cMap[field] && cMap[field].value !== value) cMap[field].value = value;
+}
+
+function loadSavedDeliveryFields() {
+  const d = state.delivery || {};
+  const pairs = [
+    ['name', 'builderRecipientName', 'cartRecipientName'],
+    ['phone', 'builderContactNo', 'cartContactNo'],
+    ['address', 'builderAddress', 'cartAddress'],
+    ['pincode', 'builderPincode', 'cartPincode']
+  ];
+
+  pairs.forEach(([key, bId, cId]) => {
+    if (d[key]) {
+      const bEl = document.getElementById(bId);
+      const cEl = document.getElementById(cId);
+      if (bEl) bEl.value = d[key];
+      if (cEl) cEl.value = d[key];
+    }
+  });
 }
 
 function openWishlistModal() {
   renderWishlistModal();
+  loadSavedDeliveryFields();
   const modal = document.getElementById('wishlistModal');
   if (modal && typeof modal.showModal === 'function') {
     modal.showModal();
@@ -401,17 +554,35 @@ function checkoutViaWhatsapp() {
     return;
   }
 
+  const recipientName = state.delivery.name || document.getElementById('cartRecipientName')?.value.trim() || '';
+  const contactNo = state.delivery.phone || document.getElementById('cartContactNo')?.value.trim() || '';
+  const permanentAddress = state.delivery.address || document.getElementById('cartAddress')?.value.trim() || '';
+  const pinCode = state.delivery.pincode || document.getElementById('cartPincode')?.value.trim() || '';
+
   let text = `🌸 *ASHREKA ORDER INQUIRY* 🌸\n\n`;
   text += `Hi Ashreka! I selected these handcrafted pieces from your landing page:\n\n`;
 
-  let total = 0;
+  let subtotal = 0;
   state.cart.forEach((item, index) => {
     text += `${index + 1}. *${item.name}* - ₹${item.price}\n`;
-    total += item.price;
+    subtotal += item.price;
   });
 
-  text += `\n✨ *Includes:* Complimentary Fairy Lights & Handwritten Gift Note\n`;
-  text += `💰 *Total Estimated:* ₹${total}\n\n`;
+  const shipping = subtotal > 0 ? 49 : 0;
+  const grandTotal = subtotal + shipping;
+
+  text += `\n✨ *Includes:* Complimentary Fairy Lights & Handwritten Gift Note\n\n`;
+
+  text += `📍 *RECIPIENT & DELIVERY DETAILS:*\n`;
+  text += `• *Name of Recipient:* ${recipientName || '[Pending/To be shared]'}\n`;
+  text += `• *Contact No.:* ${contactNo || '[Pending/To be shared]'}\n`;
+  text += `• *Permanent Address:* ${permanentAddress || '[Pending/To be shared]'}\n`;
+  text += `• *PIN Code:* ${pinCode || '[Pending/To be shared]'}\n\n`;
+
+  text += `💰 *PRICE BREAKDOWN:*\n`;
+  text += `• Items Subtotal: ₹${subtotal}\n`;
+  text += `• Shipping Charges (Pan-India): ₹${shipping}\n`;
+  text += `• *Total Amount Payable:* ₹${grandTotal}\n\n`;
   text += `Please let me know how we can proceed with delivery & payment! ♡`;
 
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
@@ -423,20 +594,33 @@ function checkoutViaInstagram() {
     return;
   }
 
+  const recipientName = state.delivery.name || document.getElementById('cartRecipientName')?.value.trim() || '';
+  const contactNo = state.delivery.phone || document.getElementById('cartContactNo')?.value.trim() || '';
+  const permanentAddress = state.delivery.address || document.getElementById('cartAddress')?.value.trim() || '';
+  const pinCode = state.delivery.pincode || document.getElementById('cartPincode')?.value.trim() || '';
+
   let text = `🌸 *ASHREKA ORDER INQUIRY* 🌸\n\n`;
+  let subtotal = 0;
   state.cart.forEach((item, index) => {
     text += `${index + 1}. ${item.name} (₹${item.price})\n`;
+    subtotal += item.price;
   });
-  text += `\nI would love to order these! Can you share details for payment and delivery? ♡`;
+  const shipping = subtotal > 0 ? 49 : 0;
+  const grandTotal = subtotal + shipping;
 
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('✨ Order details copied to clipboard! Opening Instagram...');
-    setTimeout(() => {
-      window.open('https://www.instagram.com/ashrekaofficial01/?hl=en', '_blank');
-    }, 1000);
-  }).catch(() => {
-    window.open('https://www.instagram.com/ashrekaofficial01/?hl=en', '_blank');
-  });
+  text += `\n📍 *RECIPIENT & DELIVERY DETAILS:*\n`;
+  text += `• *Recipient:* ${recipientName || '[Pending/To be shared]'}\n`;
+  text += `• *Contact:* ${contactNo || '[Pending/To be shared]'}\n`;
+  text += `• *Permanent Address:* ${permanentAddress || '[Pending/To be shared]'}\n`;
+  text += `• *PIN Code:* ${pinCode || '[Pending/To be shared]'}\n\n`;
+
+  text += `💰 *PRICE BREAKDOWN:*\n`;
+  text += `• Subtotal: ₹${subtotal} | Shipping: ₹${shipping} | Total: ₹${grandTotal}\n\n`;
+  text += `I would love to order these! Can you share details for payment and delivery? ♡`;
+
+  copyTextToClipboard(text);
+  showToast('✨ Order & delivery details copied! Opening Instagram chat... Simply paste & send! 💌');
+  window.open('https://ig.me/m/ashrekaofficial01', '_blank', 'noopener,noreferrer');
 }
 
 // -------------------------------------------------------------
@@ -473,6 +657,9 @@ function previewProduct(id) {
           <button type="button" class="btn btn-whatsapp" onclick="quickOrderWhatsapp('${product.name}', ${product.price})">
             Order on WhatsApp
           </button>
+          <button type="button" class="btn btn-outline" onclick="quickOrderInstagram('${product.name}', ${product.price})">
+            DM on Instagram
+          </button>
         </div>
       </div>
     </div>
@@ -494,6 +681,13 @@ function closeProductModal() {
 function quickOrderWhatsapp(name, price) {
   const text = `Hi Ashreka! I'd like to order "${name}" (₹${price}) from your landing page with fairy lights. Can you confirm availability? ♡`;
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function quickOrderInstagram(name, price) {
+  const text = `🌸 *ASHREKA ORDER INQUIRY* 🌸\n\nHi Ashreka! I'd like to order "${name}" (₹${price}) from your landing page with fairy lights. Can you confirm availability? ♡`;
+  copyTextToClipboard(text);
+  showToast('✨ Order inquiry copied! Opening Instagram chat... Simply paste & send! 💌');
+  window.open('https://ig.me/m/ashrekaofficial01', '_blank', 'noopener,noreferrer');
 }
 
 function openOrderModal(name, price, img) {
@@ -610,14 +804,13 @@ function showToast(message) {
 }
 
 function copyHandleToClipboard() {
-  navigator.clipboard.writeText('@ashrekaofficial01').then(() => {
-    const btn = document.getElementById('copyBtnText');
-    if (btn) btn.textContent = '✓ Copied @ashrekaofficial01';
-    showToast('✨ Handle copied: @ashrekaofficial01');
-    setTimeout(() => {
-      if (btn) btn.textContent = '📋 Copy Handle';
-    }, 2500);
-  });
+  copyTextToClipboard('@ashrekaofficial01');
+  const btn = document.getElementById('copyBtnText');
+  if (btn) btn.textContent = '✓ Copied @ashrekaofficial01';
+  showToast('✨ Handle copied: @ashrekaofficial01');
+  setTimeout(() => {
+    if (btn) btn.textContent = '📋 Copy Handle';
+  }, 2500);
 }
 
 // -------------------------------------------------------------
@@ -692,4 +885,33 @@ function initPetalCanvas() {
   }
 
   requestAnimationFrame(render);
+}
+
+// Interactive Hero Photo Switcher
+function switchHeroImage(src, name, price) {
+  const heroImg = document.querySelector('.hero-img');
+  const pillTopStrong = document.querySelector('.pill-top strong');
+  const pillPrice = document.querySelector('.pill-price');
+  const pillBtn = document.querySelector('.pill-bottom .pill-btn');
+  const buttons = document.querySelectorAll('.hero-thumb-btn');
+
+  if (heroImg) {
+    heroImg.style.opacity = '0.35';
+    setTimeout(() => {
+      heroImg.src = src;
+      heroImg.style.opacity = '1';
+    }, 150);
+  }
+  if (pillTopStrong) pillTopStrong.textContent = name;
+  if (pillPrice) pillPrice.textContent = price;
+  if (pillBtn) {
+    pillBtn.setAttribute('onclick', `openOrderModal('${name}', '${price.replace(/\D/g, '')}', '${src}')`);
+  }
+  buttons.forEach(btn => {
+    if (btn.querySelector('img')?.getAttribute('src') === src) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
 }

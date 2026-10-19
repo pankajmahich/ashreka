@@ -289,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFilterTabs();
   initCatalogDragScroll();
   initInstagramDragScroll();
+  initOccasionsSlider();
   loadSavedDeliveryFields();
   updateBuilderSummary();
   updateCartBadge();
@@ -907,6 +908,89 @@ function initInstagramDragScroll() {
     const x = e.pageX - gallery.offsetLeft;
     const walk = (x - startX) * 1.5;
     gallery.scrollLeft = scrollLeft - walk;
+  });
+}
+
+// -------------------------------------------------------------
+// Occasions Mobile Slidable Cards & Indicator Dots
+// -------------------------------------------------------------
+function initOccasionsSlider() {
+  const grid = document.getElementById('occasionsGrid');
+  const dotsContainer = document.getElementById('occasionsDots');
+  if (!grid || !dotsContainer) return;
+
+  const dots = dotsContainer.querySelectorAll('.occasion-dot');
+  const cards = grid.querySelectorAll('.occasion-card');
+  if (!cards.length) return;
+
+  // Active dot tracker on scroll
+  const updateActiveDot = () => {
+    const gridRect = grid.getBoundingClientRect();
+    let minDistance = Infinity;
+    let activeIdx = 0;
+
+    cards.forEach((card, idx) => {
+      const cardRect = card.getBoundingClientRect();
+      const distance = Math.abs(cardRect.left - gridRect.left);
+      if (distance < minDistance) {
+        minDistance = distance;
+        activeIdx = idx;
+      }
+    });
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === activeIdx);
+    });
+  };
+
+  let scrollTimeout;
+  grid.addEventListener('scroll', () => {
+    cancelAnimationFrame(scrollTimeout);
+    scrollTimeout = requestAnimationFrame(updateActiveDot);
+  }, { passive: true });
+
+  // Tapping a dot smoothly slides to that card
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.getAttribute('data-index') || '0', 10);
+      if (cards[idx]) {
+        cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      }
+    });
+  });
+
+  // Mouse Drag to Scroll for desktop responsive inspection / laptops
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  grid.addEventListener('mousedown', (e) => {
+    if (window.innerWidth > 768) return;
+    if (e.target.closest('a, button')) return;
+    isDown = true;
+    grid.classList.add('is-dragging');
+    startX = e.pageX - grid.offsetLeft;
+    scrollLeft = grid.scrollLeft;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    grid.classList.remove('is-dragging');
+  });
+
+  grid.addEventListener('mouseleave', () => {
+    if (!isDown) return;
+    isDown = false;
+    grid.classList.remove('is-dragging');
+  });
+
+  grid.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - grid.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    grid.scrollLeft = scrollLeft - walk;
   });
 }
 

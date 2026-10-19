@@ -1258,7 +1258,7 @@
           <h2 class="section-title">Flowers for Every Unforgettable Moment</h2>
         </div>
 
-        <div class="occasions-grid">
+        <div class="occasions-grid" id="occasionsGrid">
           <div class="occasion-card">
             <span class="occasion-icon">🎓</span>
             <h3>Graduation Ceremonies</h3>
@@ -1288,6 +1288,19 @@
             <p>Cute, fuzzy floral charms and single-stem desk vase buddies that bring daily smiles while studying or
               working.</p>
             <a href="#collections" class="occasion-link">Shop Keychains &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Mobile-only Slidable Indicator -->
+        <div class="occasions-nav-mobile" id="occasionsNavMobile" aria-label="Occasions navigation">
+          <div class="occasions-swipe-hint">
+            <span>👈 Swipe sideways to explore 👉</span>
+          </div>
+          <div class="occasions-dots" id="occasionsDots" role="tablist" aria-label="Occasion slides">
+            <button type="button" class="occasion-dot active" role="tab" aria-label="Go to slide 1: Graduation Ceremonies" data-index="0"></button>
+            <button type="button" class="occasion-dot" role="tab" aria-label="Go to slide 2: Birthday Surprises" data-index="1"></button>
+            <button type="button" class="occasion-dot" role="tab" aria-label="Go to slide 3: Anniversaries & Romance" data-index="2"></button>
+            <button type="button" class="occasion-dot" role="tab" aria-label="Go to slide 4: Desk Buddies & Keychains" data-index="3"></button>
           </div>
         </div>
       </div>

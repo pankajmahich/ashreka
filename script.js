@@ -3,6 +3,18 @@
  * Official Landing Page Scripts
  */
 
+// =============================================================
+// ASHREKA STORE CONFIGURATION
+// (Update ownerEmail below with your email address!)
+// =============================================================
+const ASHREKA_CONFIG = {
+  // Replace this placeholder with your actual email address when ready:
+  ownerEmail: "ashrekaofficial01@gmail.com",
+  
+  // Optional Formspree endpoint (e.g. "https://formspree.io/f/xyzab...")
+  formspreeEndpoint: ""
+};
+
 // Global State
 const state = {
   stems: {
@@ -11,7 +23,9 @@ const state = {
     daisy: 2,
     sunflower: 1,
     rose: 0,
-    lavender: 2
+    lavender: 2,
+    hibiscus: 0,
+    sakura: 0
   },
   stemPrices: {
     lily: 140,
@@ -19,7 +33,9 @@ const state = {
     daisy: 70,
     sunflower: 150,
     rose: 110,
-    lavender: 60
+    lavender: 60,
+    hibiscus: 160,
+    sakura: 90
   },
   stemNames: {
     lily: 'Ruffled Lily 🪷',
@@ -27,7 +43,9 @@ const state = {
     daisy: 'Fluffy Daisy 🌼',
     sunflower: 'Velvet Sunflower 🌻',
     rose: 'Forever Rose 🌹',
-    lavender: 'Lilac Lavender 🪻'
+    lavender: 'Lilac Lavender 🪻',
+    hibiscus: 'Crimson Hibiscus 🌺',
+    sakura: 'Sakura Bloom 🌸'
   },
   cart: JSON.parse(localStorage.getItem('ashreka_cart') || '[]'),
   delivery: JSON.parse(localStorage.getItem('ashreka_delivery') || '{"name":"","phone":"","address":"","pincode":""}'),
@@ -185,6 +203,81 @@ const catalogData = {
       'Delicate frosted stamen pistil center',
       'Includes authentic Ashreka handwritten signature card'
     ]
+  },
+  105: {
+    id: 105,
+    name: 'Blush Sakura Five-Petal Bloom',
+    category: 'Ashreka Studio Signature',
+    price: 349,
+    originalPrice: 499,
+    img: 'images/sakura_pink_bloom.jpg',
+    desc: 'A tender cherry-blossom dream! Hand-twisted blush pink velvety petals sculpted in five delicate open loops around a coiled rosette center, accented with gleaming white pearl-tipped stamens on an elongated flexible botanical stem.',
+    features: [
+      'Five hand-shaped soft blush chenille petal loops',
+      'Coiled rosette spiral core with delicate pearl stamens',
+      'Wired stem can be bent, trimmed, or arranged in any vase',
+      '100% handcrafted studio original by Ashreka'
+    ]
+  },
+  106: {
+    id: 106,
+    name: 'Midnight Noir Lavender Orchid',
+    category: 'Studio Exclusive',
+    price: 449,
+    originalPrice: 599,
+    img: 'images/gothic_lavender_lily.jpg',
+    desc: 'A sensational gothic romance statement piece! Crafted with ethereal pastel lilac petals dramatically outlined with deep velvet noir black ruffled scalloped piping and adorned with frosted white stamen filaments.',
+    features: [
+      'Dramatic midnight-black ruffled fluted borders',
+      'Pastel lilac & gothic noir contrast aesthetic',
+      'Hand-shaped organic petal curves that hold shape forever',
+      'Stunning solo statement flower or bouquet highlight'
+    ]
+  },
+  107: {
+    id: 107,
+    name: 'Royal Crimson Hibiscus Trio',
+    category: 'Ashreka Studio Signature',
+    price: 549,
+    originalPrice: 699,
+    img: 'images/crimson_hibiscus.jpg',
+    desc: 'A magnificent cluster of three blooming tropical hibiscus flowers in rich scarlet red velvet chenille. Features elongated fuzzy bright yellow pollen pistils and deep forest green wired stems for an opulent tropical aura.',
+    features: [
+      'Trio of 3 fully bloomed hibiscus flowers on clustered stems',
+      'Rich scarlet red velvety chenille texture',
+      'Signature sculpted yellow pollen stamen crowns',
+      'Brings vivid warmth and life to any home or desk'
+    ]
+  },
+  108: {
+    id: 108,
+    name: 'Electric Blue Sapphire Stargazer',
+    category: 'Ashreka Studio Signature',
+    price: 449,
+    originalPrice: 599,
+    img: 'images/sapphire_stargazer.jpg',
+    desc: 'An electrifying star bloom! Six slender recurved lily petals featuring light sky-blue centers framed by radiant royal blue ruffled pipe-cleaner piping and slender black stamen pistils.',
+    features: [
+      'Six arched star-lily petals with vibrant sapphire contrast',
+      'Ruffled chenille perimeter technique unique to Ashreka',
+      'Contrasting black stamen pistils with pearl accents',
+      'Includes signature calligraphy keepsake tag'
+    ]
+  },
+  109: {
+    id: 109,
+    name: 'Parisian Vintage Blue Daisy Cone',
+    category: 'Ready-to-Gift Bouquets',
+    price: 399,
+    originalPrice: 499,
+    img: 'images/paris_blue_daisy.jpg',
+    desc: 'French vintage charm in a cone! Multi-tiered layered chamomile daisy petals in serene cerulean blue with a sweet pink-and-white concentric core, wrapped in authentic Louvre Paris typography newsprint parchment.',
+    features: [
+      'Multi-tiered plush blue chamomile daisy petals',
+      'Authentic Parisian vintage newspaper wrap cone',
+      'Hand-tied and ready to gift immediately',
+      'Complimentary warm fairy lights & custom message note'
+    ]
   }
 };
 
@@ -194,6 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
   initMobileMenu();
   initFilterTabs();
+  initCatalogDragScroll();
+  initInstagramDragScroll();
   loadSavedDeliveryFields();
   updateBuilderSummary();
   updateCartBadge();
@@ -701,6 +796,8 @@ function openOrderModal(name, price, img) {
 function initFilterTabs() {
   const tabs = document.querySelectorAll('.filter-tab');
   const cards = document.querySelectorAll('.product-card');
+  const countEl = document.getElementById('visibleCardCount');
+  const grid = document.getElementById('productsGrid');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -712,16 +809,104 @@ function initFilterTabs() {
       tab.setAttribute('aria-selected', 'true');
 
       const filter = tab.getAttribute('data-filter');
+      let visible = 0;
 
       cards.forEach(card => {
         const category = card.getAttribute('data-category');
         if (filter === 'all' || category === filter) {
           card.style.display = 'flex';
+          visible++;
         } else {
           card.style.display = 'none';
         }
       });
+
+      if (countEl) countEl.textContent = visible;
+      if (grid) grid.scrollLeft = 0;
     });
+  });
+}
+
+function scrollCatalog(direction) {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+  const cardWidth = 326; // 310px width + gap
+  grid.scrollBy({ left: direction * cardWidth * 2, behavior: 'smooth' });
+}
+
+function initCatalogDragScroll() {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  grid.addEventListener('mousedown', (e) => {
+    if (e.target.closest('button, a')) return;
+    isDown = true;
+    grid.classList.add('is-dragging');
+    startX = e.pageX - grid.offsetLeft;
+    scrollLeft = grid.scrollLeft;
+  });
+
+  grid.addEventListener('mouseleave', () => {
+    isDown = false;
+    grid.classList.remove('is-dragging');
+  });
+
+  grid.addEventListener('mouseup', () => {
+    isDown = false;
+    grid.classList.remove('is-dragging');
+  });
+
+  grid.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - grid.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    grid.scrollLeft = scrollLeft - walk;
+  });
+}
+
+function scrollInstagram(direction) {
+  const gallery = document.getElementById('igGallery');
+  if (!gallery) return;
+  const photoWidth = 260; // 240px width + 20px gap
+  gallery.scrollBy({ left: direction * photoWidth * 2, behavior: 'smooth' });
+}
+
+function initInstagramDragScroll() {
+  const gallery = document.getElementById('igGallery');
+  if (!gallery) return;
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  gallery.addEventListener('mousedown', (e) => {
+    isDown = true;
+    gallery.classList.add('is-dragging');
+    startX = e.pageX - gallery.offsetLeft;
+    scrollLeft = gallery.scrollLeft;
+  });
+
+  gallery.addEventListener('mouseleave', () => {
+    isDown = false;
+    gallery.classList.remove('is-dragging');
+  });
+
+  gallery.addEventListener('mouseup', () => {
+    isDown = false;
+    gallery.classList.remove('is-dragging');
+  });
+
+  gallery.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - gallery.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    gallery.scrollLeft = scrollLeft - walk;
   });
 }
 
@@ -729,7 +914,11 @@ function initFilterTabs() {
 // Light Dismiss for Modals (Click Outside)
 // -------------------------------------------------------------
 function setupModalDismissals() {
-  const modals = [document.getElementById('productPreviewModal'), document.getElementById('wishlistModal')];
+  const modals = [
+    document.getElementById('productPreviewModal'),
+    document.getElementById('wishlistModal'),
+    document.getElementById('inquiryModal')
+  ];
   
   modals.forEach(modal => {
     if (!modal) return;
@@ -751,6 +940,105 @@ function setupModalDismissals() {
   if (openWishlistBtn) {
     openWishlistBtn.addEventListener('click', openWishlistModal);
   }
+}
+
+// -------------------------------------------------------------
+// Customer Inquiry Modal Functions
+// -------------------------------------------------------------
+function openInquiryModal() {
+  const modal = document.getElementById('inquiryModal');
+  if (modal && typeof modal.showModal === 'function') {
+    modal.showModal();
+    const nameInput = document.getElementById('inquiryName');
+    if (nameInput) setTimeout(() => nameInput.focus(), 100);
+  }
+}
+
+function closeInquiryModal() {
+  const modal = document.getElementById('inquiryModal');
+  if (modal && typeof modal.close === 'function') {
+    modal.close();
+  }
+}
+
+async function handleInquirySubmit(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('inquiryName')?.value.trim();
+  const email = document.getElementById('inquiryEmail')?.value.trim();
+  const message = document.getElementById('inquiryMessage')?.value.trim();
+
+  if (!name || !email || !message) {
+    showToast('⚠️ Please fill out your name, email, and message.');
+    return;
+  }
+
+  const submitBtn = document.getElementById('btnSubmitInquiry');
+  const originalBtnHTML = submitBtn ? submitBtn.innerHTML : '<span>✉ Send Inquiry</span>';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>⏳ Sending Inquiry...</span>';
+  }
+
+  // 1. If Formspree endpoint is configured, send via AJAX POST
+  if (ASHREKA_CONFIG.formspreeEndpoint) {
+    try {
+      const response = await fetch(ASHREKA_CONFIG.formspreeEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, email, message, _subject: `🌸 Ashreka Flower Inquiry from ${name}` })
+      });
+      if (response.ok) {
+        finishInquirySuccess(name);
+        return;
+      }
+    } catch (err) {
+      console.warn('Formspree endpoint failed, falling back to mail client:', err);
+    }
+  }
+
+  // 2. Direct Mail Client Dispatch (mailto:)
+  const subject = encodeURIComponent(`🌸 Ashreka Flower Inquiry from ${name}`);
+  const body = encodeURIComponent(
+    `Hello Ashreka Team,\n\n` +
+    `You have received a new customer inquiry from your website!\n\n` +
+    `----------------------------------------\n` +
+    `Customer Name : ${name}\n` +
+    `Customer Email: ${email}\n` +
+    `----------------------------------------\n\n` +
+    `Inquiry Details:\n` +
+    `${message}\n\n` +
+    `Best regards,\n` +
+    `${name}`
+  );
+
+  const targetEmail = ASHREKA_CONFIG.ownerEmail || 'ashrekaofficial01@gmail.com';
+  const mailtoLink = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+
+  // Launch pre-filled email client
+  window.open(mailtoLink, '_blank');
+
+  finishInquirySuccess(name);
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnHTML;
+  }
+}
+
+function finishInquirySuccess(name) {
+  closeInquiryModal();
+  document.getElementById('inquiryForm')?.reset();
+  showToast(`💌 Thank you, ${name}! Your inquiry has been sent to Ashreka. We will reply to your email soon!`);
+}
+
+function sendInquiryViaWhatsapp() {
+  const name = document.getElementById('inquiryName')?.value.trim() || 'Flower Lover';
+  const email = document.getElementById('inquiryEmail')?.value.trim() || '';
+  const message = document.getElementById('inquiryMessage')?.value.trim() || 'I have an inquiry about handcrafted bouquets.';
+
+  const text = `🌸 *ASHREKA CUSTOMER INQUIRY* 🌸\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\nCan you please get back to me? ♡`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 // -------------------------------------------------------------

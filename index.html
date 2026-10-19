@@ -34,12 +34,32 @@
   <canvas id="petal-canvas" aria-hidden="true"></canvas>
 
   <!-- Top Announcement Bar -->
-  <aside class="announcement-bar" role="complementary">
-    <div class="announcement-content">
-      <span class="sparkle-icon">✨</span>
-      <span>Handcrafted with 100% Love ♡ Free Fairy Lights with every bouquet! Custom orders open for birthdays,
-        anniversaries & graduations.</span>
-      <a href="#custom-builder" class="announcement-link">Customize Now &rarr;</a>
+  <aside class="announcement-bar" role="complementary" aria-label="Special Offers and Announcement">
+    <div class="announcement-track">
+      <div class="announcement-content">
+        <span class="sparkle-icon">✨</span>
+        <span>Handcrafted with 100% Love ♡ Free Fairy Lights with every bouquet! Custom orders open for birthdays, anniversaries &amp; graduations.</span>
+        <a href="#custom-builder" class="announcement-link">Customize Now &rarr;</a>
+        <span class="announcement-sep" aria-hidden="true">✦</span>
+      </div>
+      <div class="announcement-content announcement-clone" aria-hidden="true">
+        <span class="sparkle-icon">✨</span>
+        <span>Handcrafted with 100% Love ♡ Free Fairy Lights with every bouquet! Custom orders open for birthdays, anniversaries &amp; graduations.</span>
+        <a href="#custom-builder" class="announcement-link" tabindex="-1">Customize Now &rarr;</a>
+        <span class="announcement-sep" aria-hidden="true">✦</span>
+      </div>
+      <div class="announcement-content announcement-clone" aria-hidden="true">
+        <span class="sparkle-icon">✨</span>
+        <span>Handcrafted with 100% Love ♡ Free Fairy Lights with every bouquet! Custom orders open for birthdays, anniversaries &amp; graduations.</span>
+        <a href="#custom-builder" class="announcement-link" tabindex="-1">Customize Now &rarr;</a>
+        <span class="announcement-sep" aria-hidden="true">✦</span>
+      </div>
+      <div class="announcement-content announcement-clone" aria-hidden="true">
+        <span class="sparkle-icon">✨</span>
+        <span>Handcrafted with 100% Love ♡ Free Fairy Lights with every bouquet! Custom orders open for birthdays, anniversaries &amp; graduations.</span>
+        <a href="#custom-builder" class="announcement-link" tabindex="-1">Customize Now &rarr;</a>
+        <span class="announcement-sep" aria-hidden="true">✦</span>
+      </div>
     </div>
   </aside>
 
@@ -54,7 +74,6 @@
 
       <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
         <ul class="nav-list">
-          <li><a href="#signature" class="nav-link">Originals</a></li>
           <li><a href="#collections" class="nav-link">Collections</a></li>
           <li><a href="#custom-builder" class="nav-link">Bouquet Builder</a></li>
           <li><a href="#craft-story" class="nav-link">Our Craft</a></li>
@@ -110,8 +129,8 @@
           </p>
 
           <div class="hero-actions">
-            <a href="#signature" class="btn btn-primary btn-glow">
-              <span>View Ashreka Originals 🪷</span>
+            <a href="#collections" class="btn btn-primary btn-glow">
+              <span>Explore Floral Collections 🪷</span>
               <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
                 <path fill-rule="evenodd"
                   d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
@@ -184,6 +203,36 @@
               <span>Pink Bouquet</span>
             </button>
             <button type="button" class="hero-thumb-btn"
+              onclick="switchHeroImage('images/crimson_hibiscus.jpg', 'Royal Crimson Hibiscus Trio', 'Starting ₹549')"
+              aria-label="View Royal Crimson Hibiscus Trio">
+              <img src="images/crimson_hibiscus.jpg" alt="Royal Crimson Hibiscus">
+              <span>Crimson Hibiscus</span>
+            </button>
+            <button type="button" class="hero-thumb-btn"
+              onclick="switchHeroImage('images/gothic_lavender_lily.jpg', 'Midnight Noir Lavender Orchid', 'Starting ₹449')"
+              aria-label="View Midnight Noir Lavender Orchid">
+              <img src="images/gothic_lavender_lily.jpg" alt="Midnight Noir Lavender Orchid">
+              <span>Midnight Noir</span>
+            </button>
+            <button type="button" class="hero-thumb-btn"
+              onclick="switchHeroImage('images/paris_blue_daisy.jpg', 'Parisian Vintage Blue Daisy Cone', 'Starting ₹399')"
+              aria-label="View Parisian Vintage Blue Daisy Cone">
+              <img src="images/paris_blue_daisy.jpg" alt="Parisian Vintage Blue Daisy">
+              <span>Paris Blue Daisy</span>
+            </button>
+            <button type="button" class="hero-thumb-btn"
+              onclick="switchHeroImage('images/sakura_pink_bloom.jpg', 'Blush Sakura Five-Petal Bloom', 'Starting ₹349')"
+              aria-label="View Blush Sakura Five-Petal Bloom">
+              <img src="images/sakura_pink_bloom.jpg" alt="Blush Sakura Bloom">
+              <span>Sakura Bloom</span>
+            </button>
+            <button type="button" class="hero-thumb-btn"
+              onclick="switchHeroImage('images/sapphire_stargazer.jpg', 'Electric Blue Sapphire Stargazer', 'Starting ₹449')"
+              aria-label="View Electric Blue Sapphire Stargazer">
+              <img src="images/sapphire_stargazer.jpg" alt="Sapphire Stargazer">
+              <span>Sapphire Stargazer</span>
+            </button>
+            <button type="button" class="hero-thumb-btn"
               onclick="switchHeroImage('images/lily_magenta_bloom.jpg', 'Imperial Magenta Stargazer Bloom', 'Starting ₹449')"
               aria-label="View Imperial Magenta Stargazer Bloom">
               <img src="images/lily_magenta_bloom.jpg" alt="Imperial Magenta Bloom">
@@ -193,13 +242,7 @@
               onclick="switchHeroImage('images/lily_blue_1.jpg', 'Sapphire Wave Ruffled Lily', 'Starting ₹449')"
               aria-label="View Sapphire Wave Lily">
               <img src="images/lily_blue_1.jpg" alt="Sapphire Wave Lily">
-              <span>Sapphire Lily</span>
-            </button>
-            <button type="button" class="hero-thumb-btn"
-              onclick="switchHeroImage('images/hero.jpg', 'The Pastel Meadow Symphony', 'Starting ₹499')"
-              aria-label="View Pastel Meadow Symphony">
-              <img src="images/hero.jpg" alt="Pastel Meadow Bouquet">
-              <span>Pastel Meadow</span>
+              <span>Sapphire Wave</span>
             </button>
           </div>
         </div>
@@ -243,156 +286,6 @@
       </div>
     </section>
 
-    <!-- Ashreka Original Signature Showcase (Features User's Real Handcrafted Flowers) -->
-    <section class="signature-showcase-section" id="signature">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-subtitle">Studio Originals</span>
-          <h2 class="section-title">The Ashreka Ruffled Lily Collection ♡</h2>
-          <p class="section-desc">Hand-sculpted in our studio using intricate chenille looping techniques. Experience
-            our signature dual-tone ruffled stargazer lilies that you won't find anywhere else.</p>
-        </div>
-
-        <div class="real-works-grid">
-          <!-- Real Card 1: Sapphire Wave Lily -->
-          <article class="real-work-card">
-            <div class="real-work-media">
-              <span class="real-badge">✨ Ashreka Signature</span>
-              <img src="images/lily_blue_1.jpg" alt="Sapphire Wave Ruffled Lily handmade by Ashreka"
-                class="real-work-img" loading="lazy">
-            </div>
-            <div class="real-work-body">
-              <span class="real-work-tag">Original Sculpted Bloom</span>
-              <h3 class="real-work-title">Sapphire Wave Ruffled Lily</h3>
-              <p class="real-work-desc">Featuring dual-tone sky blue and royal sapphire ruffled scalloped petals,
-                delicate pink chenille stamens, and an elongated floral stem. A mesmerizing statement bloom for your
-                study or bedside table.</p>
-
-              <div class="real-work-footer">
-                <div class="real-price">
-                  <span>₹449</span> <small>/ single stem</small>
-                </div>
-                <div style="display: flex; gap: 0.5rem;">
-                  <button type="button" class="btn btn-outline btn-sm" onclick="previewProduct(101)">Quick View</button>
-                  <button type="button" class="btn btn-primary btn-sm"
-                    onclick="addToWishlist('Sapphire Wave Ruffled Lily', 449, 'images/lily_blue_1.jpg')">+ Add to
-                    Order</button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Real Card 2: Cotton-Candy Twilight Lily -->
-          <article class="real-work-card">
-            <div class="real-work-media">
-              <span class="real-badge pink">♡ Most Loved Original</span>
-              <img src="images/lily_pink_bloom.jpg" alt="Cotton-Candy Twilight Ruffled Lily handmade by Ashreka"
-                class="real-work-img" loading="lazy">
-            </div>
-            <div class="real-work-body">
-              <span class="real-work-tag">Fairytale Stargazer</span>
-              <h3 class="real-work-title">Cotton-Candy Twilight Lily</h3>
-              <p class="real-work-desc">Dreamy soft lavender star petals framed by delicate baby-pink ruffled fringes
-                and pearl-accented stamen center. Exudes pure warmth, whimsy, and artisanal dedication in every curve.
-              </p>
-
-              <div class="real-work-footer">
-                <div class="real-price">
-                  <span>₹449</span> <small>/ single stem</small>
-                </div>
-                <div style="display: flex; gap: 0.5rem;">
-                  <button type="button" class="btn btn-outline btn-sm" onclick="previewProduct(102)">Quick View</button>
-                  <button type="button" class="btn btn-primary btn-sm"
-                    onclick="addToWishlist('Cotton-Candy Twilight Ruffled Lily', 449, 'images/lily_pink_bloom.jpg')">+
-                    Add to Order</button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Real Card 3: Blush Radiance Ruffled Bouquet -->
-          <article class="real-work-card">
-            <div class="real-work-media">
-              <span class="real-badge pink">♡ Customisation Available</span>
-              <img src="images/bouquet_pink_custom.jpg" alt="Blush Radiance Ruffled Lily Bouquet handmade by Ashreka"
-                class="real-work-img" loading="lazy">
-            </div>
-            <div class="real-work-body">
-              <span class="real-work-tag">Bespoke Frosted Bouquet</span>
-              <h3 class="real-work-title">Blush Radiance Ruffled Bouquet</h3>
-              <p class="real-work-desc">Signature handcrafted two-tone pink and white ruffled lilies paired with budding chenille tulips, wrapped in frosted Korean paper with an elegant white lace bow. Fully customisable colors & fairy lights.</p>
-
-              <div class="real-work-footer">
-                <div class="real-price">
-                  <span>₹699</span> <small>/ full bouquet</small>
-                </div>
-                <div style="display: flex; gap: 0.5rem;">
-                  <button type="button" class="btn btn-outline btn-sm" onclick="previewProduct(103)">Quick View</button>
-                  <button type="button" class="btn btn-primary btn-sm"
-                    onclick="addToWishlist('Blush Radiance Ruffled Lily Bouquet', 699, 'images/bouquet_pink_custom.jpg')">+ Add to Order</button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Real Card 4: Imperial Magenta Stargazer Bloom -->
-          <article class="real-work-card">
-            <div class="real-work-media">
-              <span class="real-badge">✨ New Studio Release</span>
-              <img src="images/lily_magenta_bloom.jpg" alt="Imperial Magenta Stargazer Bloom handmade by Ashreka"
-                class="real-work-img" loading="lazy">
-            </div>
-            <div class="real-work-body">
-              <span class="real-work-tag">Sculpted Velvet Keepsake</span>
-              <h3 class="real-work-title">Imperial Magenta Stargazer Bloom</h3>
-              <p class="real-work-desc">Rich fuchsia and magenta multi-layered velvet petals centered around delicate silver-frosted pistil stamens on a botanical green stem. Includes signature handwritten Ashreka keepsake card.</p>
-
-              <div class="real-work-footer">
-                <div class="real-price">
-                  <span>₹449</span> <small>/ single stem</small>
-                </div>
-                <div style="display: flex; gap: 0.5rem;">
-                  <button type="button" class="btn btn-outline btn-sm" onclick="previewProduct(104)">Quick View</button>
-                  <button type="button" class="btn btn-primary btn-sm"
-                    onclick="addToWishlist('Imperial Magenta Stargazer Bloom', 449, 'images/lily_magenta_bloom.jpg')">+ Add to Order</button>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <!-- Real Studio Craft Desk Strip -->
-        <div class="craft-desk-strip">
-          <div class="desk-strip-header">
-            <div>
-              <h3>From the Ashreka Crafting Desk 🌸</h3>
-              <p>Authentic photos straight from the maker's desk — no filters needed for genuine craftsmanship.</p>
-            </div>
-            <a href="https://www.instagram.com/ashrekaofficial01/?hl=en" target="_blank" rel="noopener"
-              class="btn btn-outline btn-sm">
-              See Reels on Instagram &rarr;
-            </a>
-          </div>
-
-          <div class="desk-photos-row">
-            <div class="desk-photo-item">
-              <img src="images/lily_blue_desk.jpg" alt="Blue lily handcrafted in studio by candlelight" loading="lazy">
-              <div class="desk-photo-label">Cozy Candlelight Studio Session</div>
-            </div>
-            <div class="desk-photo-item">
-              <img src="images/lily_pink_stem.jpg" alt="Artisan holding completed lavender and pink lily stem"
-                loading="lazy">
-              <div class="desk-photo-label">Petal Sculpting & Stem Assembly</div>
-            </div>
-            <div class="desk-photo-item">
-              <img src="images/lily_pink_window.jpg" alt="Handmade flower bloom in natural window light" loading="lazy">
-              <div class="desk-photo-label">Natural Daylight Texture Glow</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Collections Section -->
     <section class="section collections-section" id="collections">
       <div class="container">
@@ -416,7 +309,28 @@
           </div>
         </div>
 
-        <div class="products-grid" id="productsGrid">
+        <!-- Horizontal Scrollable Bar Showcase -->
+        <div class="products-scroll-wrapper" id="productsScrollWrapper">
+          <div class="scroll-status-bar">
+            <div class="scroll-status-left">
+              <span class="scroll-count-indicator">✨ Showing <strong id="visibleCardCount">14</strong> Handcrafted Blooms</span>
+              <span class="scroll-hint-pill">↔ Scroll Horizontally</span>
+            </div>
+            <div class="carousel-nav-arrows" role="group" aria-label="Browse floral collection">
+              <button type="button" class="carousel-arrow-btn" id="scrollLeftBtn" onclick="scrollCatalog(-1)" title="Scroll Left" aria-label="Previous Flowers">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="carousel-arrow-btn" id="scrollRightBtn" onclick="scrollCatalog(1)" title="Scroll Right" aria-label="Next Flowers">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="products-grid" id="productsGrid">
           <!-- Real Product 1: Sapphire Lily -->
           <article class="product-card" data-category="lilies">
             <div class="product-thumb">
@@ -557,6 +471,186 @@
                 </div>
                 <button type="button" class="btn btn-add"
                   onclick="addToWishlist('Imperial Magenta Stargazer Bloom', 449, 'images/lily_magenta_bloom.jpg')">
+                  + Add to Order
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Real Product: Royal Crimson Hibiscus Trio -->
+          <article class="product-card" data-category="lilies">
+            <div class="product-thumb">
+              <span class="product-badge badge-gold">Best Seller</span>
+              <img src="images/crimson_hibiscus.jpg" alt="Royal Crimson Hibiscus Trio" loading="lazy" width="400"
+                height="400">
+              <div class="thumb-actions">
+                <button type="button" class="action-btn preview-btn" onclick="previewProduct(107)"
+                  aria-label="Quick View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="product-details">
+              <div class="product-meta">
+                <span class="category-name">Tropical Velvet Stem</span>
+                <span class="product-rating">★ 5.0 (58)</span>
+              </div>
+              <h3 class="product-name">Royal Crimson Hibiscus Trio</h3>
+              <p class="product-snippet">Cluster of three vibrant blooming scarlet red hibiscus flowers with fuzzy golden yellow pollen crowns.</p>
+              <div class="product-price-row">
+                <div class="price-box">
+                  <span class="price-val">₹549</span>
+                  <span class="original-val">₹699</span>
+                </div>
+                <button type="button" class="btn btn-add"
+                  onclick="addToWishlist('Royal Crimson Hibiscus Trio', 549, 'images/crimson_hibiscus.jpg')">
+                  + Add to Order
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Real Product: Midnight Noir Lavender Orchid -->
+          <article class="product-card" data-category="lilies">
+            <div class="product-thumb">
+              <span class="product-badge">Gothic Romance</span>
+              <img src="images/gothic_lavender_lily.jpg" alt="Midnight Noir Lavender Orchid" loading="lazy" width="400"
+                height="400">
+              <div class="thumb-actions">
+                <button type="button" class="action-btn preview-btn" onclick="previewProduct(106)"
+                  aria-label="Quick View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="product-details">
+              <div class="product-meta">
+                <span class="category-name">Studio Exclusive</span>
+                <span class="product-rating">★ 5.0 (63)</span>
+              </div>
+              <h3 class="product-name">Midnight Noir Lavender Orchid</h3>
+              <p class="product-snippet">Pastel lilac petals edged with dramatic velvet noir black ruffled piping and frosted stamen sprays.</p>
+              <div class="product-price-row">
+                <div class="price-box">
+                  <span class="price-val">₹449</span>
+                  <span class="original-val">₹599</span>
+                </div>
+                <button type="button" class="btn btn-add"
+                  onclick="addToWishlist('Midnight Noir Lavender Orchid', 449, 'images/gothic_lavender_lily.jpg')">
+                  + Add to Order
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Real Product: Parisian Vintage Blue Daisy Cone -->
+          <article class="product-card" data-category="bouquets">
+            <div class="product-thumb">
+              <span class="product-badge badge-cute">Ready to Gift</span>
+              <img src="images/paris_blue_daisy.jpg" alt="Parisian Vintage Blue Daisy Cone" loading="lazy" width="400"
+                height="400">
+              <div class="thumb-actions">
+                <button type="button" class="action-btn preview-btn" onclick="previewProduct(109)"
+                  aria-label="Quick View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="product-details">
+              <div class="product-meta">
+                <span class="category-name">Vintage Aesthetic</span>
+                <span class="product-rating">★ 5.0 (72)</span>
+              </div>
+              <h3 class="product-name">Parisian Vintage Blue Daisy Cone</h3>
+              <p class="product-snippet">Multi-tiered azure daisy in an authentic French typography newsprint cone. Pure vintage romanticism.</p>
+              <div class="product-price-row">
+                <div class="price-box">
+                  <span class="price-val">₹399</span>
+                  <span class="original-val">₹499</span>
+                </div>
+                <button type="button" class="btn btn-add"
+                  onclick="addToWishlist('Parisian Vintage Blue Daisy Cone', 399, 'images/paris_blue_daisy.jpg')">
+                  + Add to Order
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Real Product: Blush Sakura Five-Petal Bloom -->
+          <article class="product-card" data-category="lilies">
+            <div class="product-thumb">
+              <span class="product-badge badge-cute">Studio Original</span>
+              <img src="images/sakura_pink_bloom.jpg" alt="Blush Sakura Five-Petal Bloom" loading="lazy" width="400"
+                height="400">
+              <div class="thumb-actions">
+                <button type="button" class="action-btn preview-btn" onclick="previewProduct(105)"
+                  aria-label="Quick View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="product-details">
+              <div class="product-meta">
+                <span class="category-name">Sakura Botanical</span>
+                <span class="product-rating">★ 5.0 (47)</span>
+              </div>
+              <h3 class="product-name">Blush Sakura Five-Petal Bloom</h3>
+              <p class="product-snippet">Velvety pastel pink five-petal blossom with rosette center and delicate pearl-tipped stamen sprays.</p>
+              <div class="product-price-row">
+                <div class="price-box">
+                  <span class="price-val">₹349</span>
+                  <span class="original-val">₹499</span>
+                </div>
+                <button type="button" class="btn btn-add"
+                  onclick="addToWishlist('Blush Sakura Five-Petal Bloom', 349, 'images/sakura_pink_bloom.jpg')">
+                  + Add to Order
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Real Product: Electric Blue Sapphire Stargazer -->
+          <article class="product-card" data-category="lilies">
+            <div class="product-thumb">
+              <span class="product-badge">Ashreka Original</span>
+              <img src="images/sapphire_stargazer.jpg" alt="Electric Blue Sapphire Stargazer" loading="lazy" width="400"
+                height="400">
+              <div class="thumb-actions">
+                <button type="button" class="action-btn preview-btn" onclick="previewProduct(108)"
+                  aria-label="Quick View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="product-details">
+              <div class="product-meta">
+                <span class="category-name">Signature Stargazer</span>
+                <span class="product-rating">★ 5.0 (41)</span>
+              </div>
+              <h3 class="product-name">Electric Blue Sapphire Stargazer</h3>
+              <p class="product-snippet">Flared star lily petals with intense royal blue ruffled scalloped edging and midnight stamen tips.</p>
+              <div class="product-price-row">
+                <div class="price-box">
+                  <span class="price-val">₹449</span>
+                  <span class="original-val">₹599</span>
+                </div>
+                <button type="button" class="btn btn-add"
+                  onclick="addToWishlist('Electric Blue Sapphire Stargazer', 449, 'images/sapphire_stargazer.jpg')">
                   + Add to Order
                 </button>
               </div>
@@ -749,7 +843,8 @@
           </article>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- Interactive Custom Bouquet Builder -->
     <section class="section builder-section" id="custom-builder">
@@ -831,6 +926,26 @@
                     <button type="button" class="count-btn" onclick="updateStem('lavender', -1)">-</button>
                     <span class="stem-count" id="count-lavender">2</span>
                     <button type="button" class="count-btn" onclick="updateStem('lavender', 1)">+</button>
+                  </div>
+                </div>
+
+                <div class="stem-card" data-stem="hibiscus">
+                  <div class="stem-icon">🌺</div>
+                  <div class="stem-title">Crimson Hibiscus</div>
+                  <div class="stem-counter">
+                    <button type="button" class="count-btn" onclick="updateStem('hibiscus', -1)">-</button>
+                    <span class="stem-count" id="count-hibiscus">0</span>
+                    <button type="button" class="count-btn" onclick="updateStem('hibiscus', 1)">+</button>
+                  </div>
+                </div>
+
+                <div class="stem-card" data-stem="sakura">
+                  <div class="stem-icon">🌸</div>
+                  <div class="stem-title">Sakura Bloom</div>
+                  <div class="stem-counter">
+                    <button type="button" class="count-btn" onclick="updateStem('sakura', -1)">-</button>
+                    <span class="stem-count" id="count-sakura">0</span>
+                    <button type="button" class="count-btn" onclick="updateStem('sakura', 1)">+</button>
                   </div>
                 </div>
               </div>
@@ -1261,30 +1376,65 @@
           </div>
         </div>
 
-        <div class="ig-grid-gallery">
-          <div class="ig-photo-box">
-            <img src="images/bouquet_pink_custom.jpg" alt="Ashreka handcrafted custom bouquet" loading="lazy">
-            <div class="ig-hover-overlay"><span>♡ 512 Likes</span></div>
+        <!-- Horizontal Scrollable Instagram Bar -->
+        <div class="ig-carousel-wrapper">
+          <div class="ig-carousel-header">
+            <span class="ig-scroll-hint">✨ <strong>10 Studio Blooms</strong> • Scroll horizontally to explore ♡</span>
+            <div class="carousel-nav-arrows" role="group" aria-label="Browse Instagram feed">
+              <button type="button" class="carousel-arrow-btn" id="igScrollLeftBtn" onclick="scrollInstagram(-1)" title="Scroll Left" aria-label="Previous Instagram creations">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="carousel-arrow-btn" id="igScrollRightBtn" onclick="scrollInstagram(1)" title="Scroll Right" aria-label="Next Instagram creations">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
-          <div class="ig-photo-box">
-            <img src="images/lily_magenta_bloom.jpg" alt="Ashreka magenta stargazer lily" loading="lazy">
-            <div class="ig-hover-overlay"><span>♡ 489 Likes</span></div>
-          </div>
-          <div class="ig-photo-box">
-            <img src="images/lily_blue_1.jpg" alt="Ashreka handcrafted blue lily" loading="lazy">
-            <div class="ig-hover-overlay"><span>♡ 384 Likes</span></div>
-          </div>
-          <div class="ig-photo-box">
-            <img src="images/lily_pink_bloom.jpg" alt="Ashreka cotton candy lily" loading="lazy">
-            <div class="ig-hover-overlay"><span>♡ 442 Likes</span></div>
-          </div>
-          <div class="ig-photo-box">
-            <img src="images/lily_blue_desk.jpg" alt="Ashreka studio candle session" loading="lazy">
-            <div class="ig-hover-overlay"><span>♡ 298 Likes</span></div>
-          </div>
-          <div class="ig-photo-box">
-            <img src="images/lily_pink_window.jpg" alt="Ashreka lavender lily daylight" loading="lazy">
-            <div class="ig-hover-overlay"><span>♡ 412 Likes</span></div>
+
+          <div class="ig-grid-gallery" id="igGallery">
+            <div class="ig-photo-box">
+              <img src="images/bouquet_pink_custom.jpg" alt="Ashreka handcrafted custom bouquet" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 512 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/crimson_hibiscus.jpg" alt="Ashreka royal crimson hibiscus trio" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 645 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/gothic_lavender_lily.jpg" alt="Ashreka midnight noir lavender orchid" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 589 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/paris_blue_daisy.jpg" alt="Ashreka Parisian vintage blue daisy cone" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 712 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/sakura_pink_bloom.jpg" alt="Ashreka blush sakura five-petal bloom" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 534 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/sapphire_stargazer.jpg" alt="Ashreka electric sapphire stargazer" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 498 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/lily_magenta_bloom.jpg" alt="Ashreka magenta stargazer lily" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 489 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/lily_blue_1.jpg" alt="Ashreka handcrafted blue lily" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 384 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/lily_pink_bloom.jpg" alt="Ashreka cotton candy lily" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 442 Likes</span></div>
+            </div>
+            <div class="ig-photo-box">
+              <img src="images/lily_pink_window.jpg" alt="Ashreka lavender lily daylight" loading="lazy">
+              <div class="ig-hover-overlay"><span>♡ 412 Likes</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1386,6 +1536,9 @@
                 target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                 <span>Chat on WhatsApp</span>
               </a>
+              <button type="button" class="btn btn-inquiry-cta" onclick="openInquiryModal()">
+                <span>💌 Enquire Now</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1416,7 +1569,7 @@
       <div class="footer-col">
         <h4 class="footer-heading">Collections</h4>
         <ul class="footer-links">
-          <li><a href="#signature">Ruffled Stargazer Lilies</a></li>
+          <li><a href="#collections">Ruffled Stargazer Lilies</a></li>
           <li><a href="#collections">Pastel Meadow Bouquets</a></li>
           <li><a href="#collections">Sun-Kissed Sunflowers</a></li>
           <li><a href="#collections">Artisan Keychains</a></li>
@@ -1564,6 +1717,51 @@
           </button>
         </div>
       </div>
+    </div>
+  </dialog>
+
+  <!-- Customer Inquiry Modal (<dialog>) -->
+  <dialog id="inquiryModal" class="app-modal" aria-labelledby="inquiryModalTitle">
+    <div class="modal-card modal-inquiry-box">
+      <button type="button" class="modal-close" onclick="closeInquiryModal()" aria-label="Close inquiry dialog">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-tag">Direct Inquiry & Custom Orders</span>
+        <h2 class="modal-title" id="inquiryModalTitle">Send an Inquiry ♡</h2>
+        <p class="modal-subdesc">Have a question, custom color request, or bulk occasion order? Drop us your details below and we'll reply directly to your email address!</p>
+      </div>
+
+      <form id="inquiryForm" onsubmit="handleInquirySubmit(event)" class="inquiry-form">
+        <div class="inquiry-form-grid">
+          <div class="inquiry-field">
+            <label for="inquiryName">Your Name *</label>
+            <input type="text" id="inquiryName" required placeholder="e.g. Priyanshu Sharma" autocomplete="name">
+          </div>
+
+          <div class="inquiry-field">
+            <label for="inquiryEmail">Your Email Address *</label>
+            <input type="email" id="inquiryEmail" required placeholder="e.g. name@example.com" autocomplete="email">
+          </div>
+
+          <div class="inquiry-field full-width">
+            <label for="inquiryMessage">Your Message / Inquiry *</label>
+            <textarea id="inquiryMessage" rows="4" required placeholder="Describe what flowers you're looking for, event date, custom colors, or questions you have..."></textarea>
+          </div>
+        </div>
+
+        <div class="inquiry-submit-row">
+          <button type="submit" class="btn btn-primary btn-glow" id="btnSubmitInquiry">
+            <span>✉ Send Inquiry</span>
+          </button>
+          <button type="button" class="btn btn-whatsapp" onclick="sendInquiryViaWhatsapp()">
+            <span>Or Send via WhatsApp</span>
+          </button>
+        </div>
+
+        <p class="inquiry-privacy-note">
+          🔒 Your details are safe with us. We will receive this directly and reply to your email.
+        </p>
+      </form>
     </div>
   </dialog>
 
